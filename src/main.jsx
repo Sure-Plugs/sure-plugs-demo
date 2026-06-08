@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   ArrowRight,
@@ -59,7 +59,17 @@ const metrics = [
 
 const categories = ['Phones', 'Apartments', 'Logistics', 'Events', 'Repairs'];
 
+const mobileNavItems = [
+  ['Home', '#top'],
+  ['About', '#proof'],
+  ['Services', '#timeline'],
+  ['Signin', '#start'],
+  ['Login', '#start'],
+];
+
 function App() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <main>
       <header className="site-header" aria-label="Main navigation">
@@ -76,9 +86,28 @@ function App() {
           <a href="#start">Start</a>
         </nav>
 
-        <button className="icon-button mobile-menu" type="button" aria-label="Open menu">
+        <button
+          className="icon-button mobile-menu"
+          type="button"
+          aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+        >
           <Menu size={20} />
         </button>
+
+        <nav
+          className={`mobile-nav ${isMobileMenuOpen ? 'is-open' : ''}`}
+          id="mobile-navigation"
+          aria-label="Mobile primary"
+        >
+          {mobileNavItems.map(([label, href]) => (
+            <a href={href} key={label} onClick={() => setIsMobileMenuOpen(false)}>
+              {label}
+            </a>
+          ))}
+        </nav>
       </header>
 
       <section className="hero" id="top">
